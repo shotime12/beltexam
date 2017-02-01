@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Destinations</title>
+	</head>
+	<body>
+		<a href = '/dashboard'>Home</a>
+		<a href = '/dashboard/logout'> Logout</a>
+		<h1>{{destination.name}}</h1>
+		Planned By: 
+		{{destination.creator_user.first_name}}<br/>
+		Description: {{destination.plan}}<br/>
+		Travel Date From: {{destination.start_date}}<br/>
+		{{destination.end_date}}<br/>
+
+
+		<h3> Other users' joining the trip:</h3>
+		{% for i in x %}
+			{% if i.first_name != destination.creator_user.first_name %}
+			{{ i.first_name }}
+			{{ i.last_name }}
+			<br/>
+			{% else %}
+			
+			{% endif %}
+		
+		{% endfor %}
+
+	</body>
+</html>

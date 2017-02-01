@@ -17,18 +17,31 @@ class UserManager(models.Manager):
             messages.error(request, "First Name is required");
             is_valid = False;
 
-        if len(request.POST['email']) == 0:
-            messages.error(request, "E-mail is required")
+        if len(request.POST['first_name']) < 3:
+            messages.error(request, "Firstname needs to be more than 3 characters long")
             is_valid = False
 
-        email_match = User.objects.filter(email=request.POST['email'])
+        if len(request.POST['username']) == 0:
+            messages.error(request, "Username is required")
+            is_valid = False
 
-        if len(email_match) > 0:
+
+        if len(request.POST['username']) < 3:
+            messages.error(request, "Username needs to be more than 3 characters long")
+            is_valid = False
+
+        user_match = User.objects.filter(username=request.POST['username'])
+
+        if len(user_match) > 0:
             messages.error(request, "That email is already in use")
             is_valid = False;
 
         if request.POST['password'] != request.POST['password_confirm']:
             messages.error(request, "The passwords don't match")
+            is_valid = False
+
+        if isinstance(request.POST['password'], str):
+            messages.error(request, "Password must have character fields")
             is_valid = False
 
         if not is_valid:
@@ -40,7 +53,7 @@ class UserManager(models.Manager):
         new_user = User(
             first_name = request.POST['first_name'],
             last_name = request.POST['last_name'],
-            email = request.POST['email'],
+            username = request.POST['username'],
             pwhash = hashed,
         )
         new_user.save()
@@ -53,7 +66,7 @@ class UserManager(models.Manager):
 
 
         # does the user exist?
-        users = User.objects.filter(email=request.POST['email'])
+        users = User.objects.filter(username=request.POST['username'])
 
         if len(users) == 0:
             messages.error(request, "That user does not exist");
@@ -74,7 +87,7 @@ class UserManager(models.Manager):
 class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
     pwhash = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

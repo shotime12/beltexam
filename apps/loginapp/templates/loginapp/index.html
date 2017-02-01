@@ -10,7 +10,7 @@
 	{% csrf_token %}
 	First Name: <input name="first_name"><br/>
 	Last Name: <input name="last_name"><br/>
-	Email: <input name="email"><br/>
+	Username: <input name="username"><br/>
 	Password: <input name="password" type="password"><br/>
 	Confirm Password: <input name="password_confirm" type="password"><br/>
 	<input type="submit">
@@ -18,7 +18,7 @@
 
 <form method="POST" action="/login/login">
 	{% csrf_token %}
-	Email: <input name="email"><br/>
+	Username: <input name="username"><br/>
 	Password: <input name="password" type="password"><br/>
 	<input type="submit">
 </form>
